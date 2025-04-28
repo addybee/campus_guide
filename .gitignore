@@ -1,0 +1,9 @@
+.qodo
+alembic.ini
+app.log
+pytest.ini
+*.db
+*.sqlite
+*.sqlite3
+=1.9*
+*__pycache__
