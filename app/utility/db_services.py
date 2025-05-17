@@ -49,6 +49,16 @@ class CRUDService:
             Institution.name == name
         ).first() is not None
 
+    def get_institutions(self) -> list[Institution]:
+        """
+        Retrieves all institutions from the database.
+
+        Returns:
+            list[Institution]: A list of all institutions.
+        """
+        return self.db.query(Institution).all()
+
+
     def create_institution(self, institution: Institution) -> Institution:
         """
         Creates a new institution in the database.
@@ -97,7 +107,7 @@ class CRUDService:
         """
         institution = self.get_institution_by_id(institution_id)
         for field, value in updates.items():
-            if value is not None:
+            if value is not None :
                 setattr(institution, field, value)
         self.db.commit()
         self.db.refresh(institution)

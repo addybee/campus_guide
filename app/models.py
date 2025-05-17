@@ -6,10 +6,11 @@ schema and include relationships between institutions and their associated
 files.
 """
 
-from sqlalchemy import Column, String, Integer, ForeignKey, DateTime
+import uuid
+from sqlalchemy import Boolean, Column, String, Integer, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from datetime import datetime
-import uuid
+# import uuid
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
@@ -37,20 +38,17 @@ class Institution(Base):
     """
 
     __tablename__ = 'institutions'
-    id = Column(
-        String(60), primary_key=True, default=lambda: str(uuid.uuid4()),
-        nullable=False
-    )
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, nullable=False)
-    name = Column(String(128), nullable=False, unique=True)
+    name = Column(String(128), nullable=False, unique=False)
+    city = Column(String(128), nullable=False)
     country = Column(String(128), nullable=False)
-    address = Column(String(128), nullable=False)
-    chapter_name = Column(String(128), nullable=False)
-    OSM_mapping = Column(Integer, nullable=False, default=0)
-    contributor_full_name = Column(String(128), nullable=False)
-    contributor_email = Column(String(128), nullable=False, unique=True)
-    contributor_phone_number = Column(String(30), nullable=False)
+    chapter_name = Column(String(128), nullable=True)
+    OSM_mapping = Column(Integer, nullable=True, default=0)
+    contributor_full_name = Column(String(128), nullable=True)
+    contributor_email = Column(String(128), nullable=True, unique=True)
+    contributor_phone_number = Column(String(30), nullable=True, unique=True)
     role_in_chapter = Column(String(128), nullable=True)
     geo_file = relationship(
         'GeoFile', backref='institution', uselist=False, lazy=True,
@@ -60,6 +58,7 @@ class Institution(Base):
         'ImageFile', backref='institution', uselist=False, lazy=True,
         cascade="all, delete-orphan"
     )
+    is_updated = Column(Boolean, default=False)
 
 
 class GeoFile(Base):
@@ -79,9 +78,7 @@ class GeoFile(Base):
     """
 
     __tablename__ = 'geofiles'
-    id = Column(
-        String(60), primary_key=True, default=lambda: str(uuid.uuid4())
-    )
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     name = Column(String(60), nullable=False, unique=True)
@@ -90,7 +87,7 @@ class GeoFile(Base):
     url = Column(String(128), nullable=False)
     path = Column(String(128), nullable=False)
     institution_id = Column(
-        String(128), ForeignKey('institutions.id'), nullable=False
+        String(36), ForeignKey('institutions.id'), nullable=False
     )
 
 
@@ -111,9 +108,7 @@ class ImageFile(Base):
     """
 
     __tablename__ = 'imagefiles'
-    id = Column(
-        String(60), primary_key=True, default=lambda: str(uuid.uuid4())
-    )
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     name = Column(String(60), nullable=False, unique=True)
@@ -122,5 +117,5 @@ class ImageFile(Base):
     url = Column(String(128), nullable=False)
     path = Column(String(128), nullable=False)
     institution_id = Column(
-        String(128), ForeignKey('institutions.id'), nullable=False
+        String(36), ForeignKey('institutions.id'), nullable=False
     )

@@ -7,3 +7,5 @@ pytest.ini
 *.sqlite3
 =1.9*
 *__pycache__
+app/__pycache__
+app/.env

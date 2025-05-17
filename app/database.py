@@ -27,6 +27,7 @@ MYSQL_ENDPOINT = 'mysql+mysqldb://{}:{}@{}/{}'.format(
     CG_MYSQL_HOST,
     CG_MYSQL_DB
 )
+# print(MYSQL_ENDPOINT)
 
 # SQLite engine for local testing
 engine = create_engine(MYSQL_ENDPOINT)

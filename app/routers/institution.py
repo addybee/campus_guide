@@ -5,6 +5,7 @@ operations, including retrieving, creating, updating, and deleting
 institutions.
 """
 
+from typing import List
 from sqlalchemy.orm import Session
 from app.database import get_session
 from app.models import Institution
@@ -18,11 +19,31 @@ router = APIRouter()
 
 
 @router.get(
+    '/institutions',
+    status_code=status.HTTP_200_OK,
+    response_model=List[InstitutionGet],
+    tags=["Institution"]
+)
+async def get_institutions(db: Session = Depends(get_session)) -> List[InstitutionGet]:
+    """
+    Retrieves all institutions from the database.
+
+    Args:
+        db: Database session dependency.
+
+    Returns:
+        A list of institutions as InstitutionGet.
+    """
+    service: CRUDService = CRUDService(db)
+    return service.get_institutions()
+
+
+@router.get(
     '/institution/{institution_id}',
     status_code=status.HTTP_200_OK,
     tags=["Institution"]
 )
-async def get_institution(
+async def get_institution_by_id(
     institution_id: str,
     db: Session = Depends(get_session)
 ) -> InstitutionGet:

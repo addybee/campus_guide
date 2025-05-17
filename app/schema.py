@@ -47,23 +47,25 @@ class InstitutionPost(BaseModel):
     Attributes:
         name (str): The name of the institution.
         country (str): The country where the institution is located.
-        address (str): The address of the institution.
+        city (str): The city where the institution is located.
         chapter_name (str): The name of the chapter associated with the institution.
         OSM_mapping (int): The number of OpenStreetMap mappings contributed.
         contributor_full_name (str): The full name of the contributor.
         contributor_email (str): The email of the contributor.
         contributor_phone_number (str): The phone number of the contributor.
         role_in_chapter (str): The role of the contributor in the chapter.
+        is_updated (bool): Indicates if the institution details have been updated.
     """
     name: str
+    city: str
     country: str
-    address: str
-    chapter_name: str
-    OSM_mapping: int
-    contributor_full_name: str
-    contributor_email: str
-    contributor_phone_number: str
-    role_in_chapter: str
+    chapter_name: Optional[str] = None
+    OSM_mapping: Optional[int] = 0
+    contributor_full_name: Optional[str] = None
+    contributor_email: Optional[str] = None
+    contributor_phone_number: Optional[str] = None
+    role_in_chapter: Optional[str] = None
+    is_updated: Optional[bool] = False
 
 
 class InstitutionGet(BaseModel):
@@ -85,21 +87,24 @@ class InstitutionGet(BaseModel):
         role_in_chapter (str): The role of the contributor in the chapter.
         geo_file (Optional[UploadedFileInfo]): Information about the associated GeoJSON file.
         image_file (Optional[UploadedFileInfo]): Information about the associated image file.
+        is_updated (bool): Indicates if the institution details have been updated.
     """
     id: Optional[str] = None
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
-    name: str
-    country: str
-    address: str
-    chapter_name: str
-    OSM_mapping: int
-    contributor_full_name: str
-    contributor_email: str
-    contributor_phone_number: str
-    role_in_chapter: str
+    name: Optional[str] = None
+    city: Optional[str] = None
+    country: Optional[str] = None
+    chapter_name: Optional[str] = None
+    OSM_mapping: Optional[int] = 0
+    contributor_full_name: Optional[str] = None
+    contributor_email: Optional[str] = None
+    contributor_phone_number: Optional[str] = None
+    role_in_chapter: Optional[str] = None
     geo_file: Optional[UploadedFileInfo] = None
     image_file: Optional[UploadedFileInfo] = None
+    is_updated: bool
+
 
 
 class InstitutionUpdate(BaseModel):
@@ -107,25 +112,27 @@ class InstitutionUpdate(BaseModel):
     Schema for updating institution details.
 
     Attributes:
-        name (Optional[str]): The name of the institution.
-        country (Optional[str]): The country where the institution is located.
-        address (Optional[str]): The address of the institution.
+        # name (Optional[str]): The name of the institution.
+        # city (Optional[str]): The city where the institution is located.
+        # country (Optional[str]): The country where the institution is located.
         chapter_name (Optional[str]): The name of the chapter associated with the institution.
         OSM_mapping (Optional[int]): The number of OpenStreetMap mappings contributed.
         contributor_full_name (Optional[str]): The full name of the contributor.
         contributor_email (Optional[str]): The email of the contributor.
         contributor_phone_number (Optional[str]): The phone number of the contributor.
         role_in_chapter (Optional[str]): The role of the contributor in the chapter.
+        is_updated (Optional[bool]): Indicates if the institution details have been updated.
     """
-    name: Optional[str] = None
-    country: Optional[str] = None
-    address: Optional[str] = None
+    # name: Optional[str] = None
+    # city: Optional[str] = None
+    # country: Optional[str] = None
     chapter_name: Optional[str] = None
-    OSM_mapping: Optional[int] = None
+    OSM_mapping: Optional[int] = 0
     contributor_full_name: Optional[str] = None
     contributor_email: Optional[str] = None
     contributor_phone_number: Optional[str] = None
     role_in_chapter: Optional[str] = None
+    is_updated: Optional[bool] = False
 
 
 class UploadFilesResponse(BaseModel):
